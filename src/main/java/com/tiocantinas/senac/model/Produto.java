@@ -1,8 +1,10 @@
 package com.tiocantinas.senac.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import com.tiocantinas.senac.model.enums.CategoriaProduto;
+import com.tiocantinas.senac.model.enums.UnidadeMedida;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,10 +36,25 @@ public class Produto {
     @Column(nullable = false, length = 100)
     private String nome;
 
+    @Column(length = 255)
+    private String descricao;
+
     @NotNull
     @PositiveOrZero
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal preco;
+
+    @NotNull
+    @PositiveOrZero
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal precoCusto;
+
+    @NotNull
+    @PositiveOrZero
+    @Column(nullable = false, precision = 10, scale = 3)
+    private BigDecimal estoqueMinimo = BigDecimal.ZERO;
+
+    private LocalDate dataValidade;
 
     @PositiveOrZero
     @Column(nullable = false)
@@ -47,4 +64,10 @@ public class Produto {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CategoriaProduto categoria;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private UnidadeMedida unidadeMedida;
+
 }
