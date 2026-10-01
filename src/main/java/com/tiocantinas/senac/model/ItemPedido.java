@@ -11,8 +11,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -39,16 +39,16 @@ public class ItemPedido {
     private Produto produto;
 
     @NotNull
-    @Min(1)
+    @Positive
     @Column(nullable = false)
-    private Integer quantidade;
+    private BigDecimal quantidade;
 
     @NotNull
     @Column(name = "preco_unitario", nullable = false, precision = 10, scale = 2)
     private BigDecimal precoUnitario;
 
     public BigDecimal getSubtotal() {
-        return precoUnitario.multiply(BigDecimal.valueOf(quantidade));
+        return precoUnitario.multiply(quantidade);
     }
 
 }
