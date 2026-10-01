@@ -70,6 +70,7 @@ public class Pedido {
     // Atributo faltante: relacionamento com o caixa
     // sera implementado após o fim da implementação do pedido
 
+    // Construtor para criar o pedido a prazo
     public Pedido(Cliente cliente, String observacoes) {
         this.cliente = cliente;
         this.observacoes = observacoes;

@@ -56,9 +56,13 @@ public class Produto {
 
     private LocalDate dataValidade;
 
-    @PositiveOrZero
+    @NotNull
     @Column(nullable = false)
-    private int quantidadeEstoque;
+    private Boolean ativo = true;
+
+    @PositiveOrZero
+    @Column(nullable = false, precision = 10, scale = 3)
+    private BigDecimal quantidadeEstoque;
 
     @NotNull
     @Enumerated(EnumType.STRING)
