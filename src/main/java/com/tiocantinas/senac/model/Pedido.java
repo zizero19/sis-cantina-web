@@ -67,8 +67,9 @@ public class Pedido {
     @Column(name = "forma_pagamento")
     private FormaPagamento formaPagamento;
 
-    // Atributo faltante: relacionamento com o caixa
-    // sera implementado após o fim da implementação do pedido
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "caixa_id")
+    private Caixa caixa;
 
     // Construtor para criar o pedido a prazo
     public Pedido(Cliente cliente, String observacoes) {
@@ -88,16 +89,29 @@ public class Pedido {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    // TODO: Definir a transição de estados do pedido para criar corretamente os
-    // metodos de mudança de estado do pedido.
+    public void aguardarPagamento() {
+        if (statusPedido != StatusPedido.CRIADO)
+            throw new IllegalStateException("Somente um pedido criado pode aguardar pagamento.");
+
+        statusPedido = StatusPedido.AGUARDANDO_PAGAMENTO;
+    }
+
+    public void finalizarPedido() {
+        if (statusPedido != StatusPedido.AGUARDANDO_PAGAMENTO)
+            throw new IllegalStateException("Somente um pedido aguardando pagamento pode ser finalizado.");
+
+        statusPedido = StatusPedido.FINALIZADO;
+    }
 
     public void cancelarPedido() {
-        if (statusPedido == StatusPedido.FINALIZADO) {
-            throw new IllegalStateException(
-                    "Um pedido finalizado não pode ser cancelado.");
-        }
+        if (statusPedido == StatusPedido.FINALIZADO)
+            throw new IllegalStateException("Um pedido finalizado não pode ser cancelado.");
 
         statusPedido = StatusPedido.CANCELADO;
+    }
+
+    void definirCaixa(Caixa caixa) {
+        this.caixa = caixa;
     }
 
 }
