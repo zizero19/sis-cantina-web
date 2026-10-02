@@ -72,12 +72,14 @@ public class Pedido {
     private Caixa caixa;
 
     // Construtor para criar o pedido a prazo
-    public Pedido(Cliente cliente, String observacoes) {
+    public Pedido(Cliente cliente) {
         this.cliente = cliente;
-        this.observacoes = observacoes;
     }
 
     public void adicionarItem(ItemPedido item) {
+        if (statusPedido == StatusPedido.FINALIZADO || statusPedido == StatusPedido.CANCELADO)
+            throw new IllegalStateException("Não é possível adicionar itens a um pedido finalizado ou cancelado.");
+
         item.setPedido(this);
         itens.add(item);
         recalcularTotal();
@@ -104,13 +106,16 @@ public class Pedido {
     }
 
     public void cancelarPedido() {
-        if (statusPedido == StatusPedido.FINALIZADO)
-            throw new IllegalStateException("Um pedido finalizado não pode ser cancelado.");
+        if (statusPedido == StatusPedido.CANCELADO)
+            throw new IllegalStateException("Um pedido já cancelado não pode ser cancelado novamente.");
 
         statusPedido = StatusPedido.CANCELADO;
     }
 
     void definirCaixa(Caixa caixa) {
+        if (this.caixa != null)
+            throw new IllegalStateException("O caixa já foi definido para este pedido.");
+
         this.caixa = caixa;
     }
 

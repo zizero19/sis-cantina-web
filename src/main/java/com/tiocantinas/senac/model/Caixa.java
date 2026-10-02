@@ -100,23 +100,22 @@ public class Caixa {
         if (pedido.getStatusPedido() != StatusPedido.FINALIZADO)
             throw new IllegalStateException("Somente pedidos finalizados podem ser registrados no caixa.");
 
-        if (pedidos.contains(pedido))
+        if (pedido.getCaixa() != null)
             throw new IllegalStateException("O pedido já foi registrado neste caixa.");
 
         pedidos.add(pedido);
         pedido.definirCaixa(this);
-
-        atualizarTotal(pedido);
     }
 
-    private void atualizarTotal(Pedido pedido) {
-        switch (pedido.getFormaPagamento()) {
-            case DINHEIRO -> totalDinheiro = totalDinheiro.add(pedido.getPrecoTotal());
-            case DEBITO, CREDITO -> totalCartao = totalCartao.add(pedido.getPrecoTotal());
-            case PIX -> totalPix = totalPix.add(pedido.getPrecoTotal());
-            case A_PRAZO -> totalAPrazo = totalAPrazo.add(pedido.getPrecoTotal());
-        }
-    }
+    // private void atualizarTotal(Pedido pedido) {
+    // switch (pedido.getFormaPagamento()) {
+    // case DINHEIRO -> totalDinheiro = totalDinheiro.add(pedido.getPrecoTotal());
+    // case DEBITO, CREDITO -> totalCartao =
+    // totalCartao.add(pedido.getPrecoTotal());
+    // case PIX -> totalPix = totalPix.add(pedido.getPrecoTotal());
+    // case A_PRAZO -> totalAPrazo = totalAPrazo.add(pedido.getPrecoTotal());
+    // }
+    // }
 
     public void fechar(BigDecimal valorFechamento) {
         if (status == StatusCaixa.FECHADO)
