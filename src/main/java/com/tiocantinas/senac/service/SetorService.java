@@ -22,27 +22,29 @@ public class SetorService {
 
     @Transactional
     public SetorResponse cadastrar(SetorRequest request) {
-        validarNomeParaCadastro(request.nome());
+        String nome = request.nome().trim();
+
+        validarNomeParaCadastro(nome);
 
         Setor setor = new Setor();
-        setor.setNome(request.nome().trim());
+        setor.setNome(nome);
 
         Setor setorSalvo = setorRepository.save(setor);
 
-        return new SetorResponse(setorSalvo.getId(), setorSalvo.getNome(), setorSalvo.getAtivo());
+        return toResponse(setorSalvo);
     }
 
     @Transactional(readOnly = true)
     public SetorResponse buscarPorId(Long id) {
         Setor setor = buscarEntidadePorId(id);
-        return new SetorResponse(setor.getId(), setor.getNome(), setor.getAtivo());
+        return toResponse(setor);
     }
 
     @Transactional(readOnly = true)
     public List<SetorResponse> listarTodos() {
         return setorRepository.findAll()
                 .stream()
-                .map(setor -> new SetorResponse(setor.getId(), setor.getNome(), setor.getAtivo()))
+                .map(this::toResponse)
                 .toList();
     }
 
@@ -50,22 +52,15 @@ public class SetorService {
     public SetorResponse atualizar(Long id, SetorRequest request) {
         Setor setor = buscarEntidadePorId(id);
 
-        validarNomeParaAtualizacao(id, request.nome());
+        String nome = request.nome().trim();
 
-        setor.setNome(request.nome().trim());
+        validarNomeParaAtualizacao(id, nome);
+
+        setor.setNome(nome);
 
         Setor setorAtualizado = setorRepository.save(setor);
 
-        return new SetorResponse(setorAtualizado.getId(), setorAtualizado.getNome(), setorAtualizado.getAtivo());
-    }
-
-    @Transactional
-    public SetorResponse excluir(Long id) {
-        Setor setor = buscarEntidadePorId(id);
-
-        setorRepository.delete(setor);
-
-        return new SetorResponse(setor.getId(), setor.getNome(), setor.getAtivo());
+        return toResponse(setorAtualizado);
     }
 
     @Transactional
@@ -76,7 +71,7 @@ public class SetorService {
 
         Setor setorAtivado = setorRepository.save(setor);
 
-        return new SetorResponse(setorAtivado.getId(), setorAtivado.getNome(), setorAtivado.getAtivo());
+        return toResponse(setorAtivado);
     }
 
     @Transactional
@@ -87,12 +82,19 @@ public class SetorService {
 
         Setor setorDesativado = setorRepository.save(setor);
 
-        return new SetorResponse(setorDesativado.getId(), setorDesativado.getNome(), setorDesativado.getAtivo());
+        return toResponse(setorDesativado);
     }
 
     private Setor buscarEntidadePorId(Long id) {
         return setorRepository.findById(id)
                 .orElseThrow(() -> new SetorNaoEncontradoException(id));
+    }
+
+    private SetorResponse toResponse(Setor setor) {
+        return new SetorResponse(
+                setor.getId(),
+                setor.getNome(),
+                setor.getAtivo());
     }
 
     private void validarNomeParaCadastro(String nome) {

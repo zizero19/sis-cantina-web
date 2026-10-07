@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -47,11 +46,6 @@ public class SetorController {
     @PutMapping("/{id}")
     public SetorResponse atualizarSetor(@PathVariable Long id, @Valid @RequestBody SetorRequest request) {
         return setorService.atualizar(id, request);
-    }
-
-    @DeleteMapping("/{id}/excluir")
-    public SetorResponse excluirSetor(@PathVariable Long id) {
-        return setorService.excluir(id);
     }
 
     @PutMapping("/{id}/ativar")
