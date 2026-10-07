@@ -14,9 +14,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,44 +29,33 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     @Column(nullable = false, length = 100)
     private String nome;
 
     @Column(length = 255)
     private String descricao;
 
-    @NotNull
-    @PositiveOrZero
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal preco;
 
-    @NotNull
-    @PositiveOrZero
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal precoCusto;
 
-    @NotNull
-    @PositiveOrZero
     @Column(nullable = false, precision = 10, scale = 3)
     private BigDecimal estoqueMinimo = BigDecimal.ZERO;
 
     private LocalDate dataValidade;
 
-    @NotNull
     @Column(nullable = false)
     private Boolean ativo = true;
 
-    @PositiveOrZero
     @Column(nullable = false, precision = 10, scale = 3)
     private BigDecimal quantidadeEstoque;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CategoriaProduto categoria;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UnidadeMedida unidadeMedida;

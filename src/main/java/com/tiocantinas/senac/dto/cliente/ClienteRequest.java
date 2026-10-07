@@ -9,11 +9,11 @@ import jakarta.validation.constraints.Size;
 
 public record ClienteRequest(
 
-        @NotBlank(message = "O nome do cliente é obrigatório.") @Size(min = 2, max = 100) String nome,
+        @NotBlank(message = "O nome do cliente é obrigatório.") @Size(min = 2, max = 100, message = "O nome deve possuir entre 2 e 100 caracteres.") String nome,
 
-        @NotBlank(message = "O CPF do cliente é obrigatório.") @Size(min = 11, max = 11) String cpf,
+        @NotBlank(message = "O CPF do cliente é obrigatório.") @Size(min = 11, max = 11, message = "O CPF deve possuir 11 caracteres.") String cpf,
 
-        @NotBlank(message = "O telefone do cliente é obrigatório.") @Size(max = 11) String telefone,
+        @NotBlank(message = "O telefone do cliente é obrigatório.") @Size(min = 10, max = 11, message = "O telefone deve possuir entre 10 e 11 caracteres.") String telefone,
 
         @NotNull(message = "O setor do cliente é obrigatório.") Long setorId,
 
