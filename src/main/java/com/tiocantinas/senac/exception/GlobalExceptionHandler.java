@@ -23,4 +23,20 @@ public class GlobalExceptionHandler {
 
         return exception.getMessage();
     }
+
+    @ExceptionHandler(SetorNaoEncontradoException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleSetorNaoEncontradoException(
+            SetorNaoEncontradoException exception) {
+
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(SetorJaExisteException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleSetorJaExisteException(
+            SetorJaExisteException exception) {
+
+        return exception.getMessage();
+    }
 }
