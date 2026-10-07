@@ -6,4 +6,7 @@ import com.tiocantinas.senac.model.Setor;
 
 public interface SetorRepository extends JpaRepository<Setor, Long> {
 
+    boolean existsByNomeIgnoreCase(String nome);
+
+    boolean existsByNomeIgnoreCaseAndIdNot(String nome, Long id);
 }
