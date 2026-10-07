@@ -96,6 +96,6 @@ public class ProdutoService {
 
     private Produto buscarEntidadePorId(Long id) {
         return produtoRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado."));
+                .orElseThrow(() -> new ProdutoNaoEncontradoException(id));
     }
 }
