@@ -9,7 +9,9 @@ import com.tiocantinas.senac.dto.cliente.ClienteRequest;
 import com.tiocantinas.senac.dto.cliente.ClienteResponse;
 import com.tiocantinas.senac.exception.ClienteNaoEncontradoException;
 import com.tiocantinas.senac.model.Cliente;
+import com.tiocantinas.senac.model.Setor;
 import com.tiocantinas.senac.repository.ClienteRepository;
+import com.tiocantinas.senac.repository.SetorRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class ClienteService {
 
     private final ClienteRepository clienteRepository;
+    private final SetorRepository setorRepository;
 
     @Transactional
     public ClienteResponse cadastrar(ClienteRequest request) {
@@ -66,10 +69,13 @@ public class ClienteService {
     }
 
     private void atualizarDados(Cliente cliente, ClienteRequest request) {
+        Setor setor = setorRepository.findById(request.setorId())
+                .orElseThrow(() -> new RuntimeException("Setor não encontrado."));
+
         cliente.setNome(request.nome());
         cliente.setCpf(request.cpf());
         cliente.setTelefone(request.telefone());
-        cliente.getSetor().setId(request.setorId());
+        cliente.setSetor(setor);
         cliente.setLimiteCredito(request.limiteCredito());
     }
 
