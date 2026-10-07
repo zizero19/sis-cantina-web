@@ -10,7 +10,17 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ProdutoNaoEncontradoException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String handleProdutoNaoEncontradoException(ProdutoNaoEncontradoException exception) {
+    public String handleProdutoNaoEncontradoException(
+            ProdutoNaoEncontradoException exception) {
+
+        return exception.getMessage();
+    }
+
+    @ExceptionHandler(ClienteNaoEncontradoException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleClienteNaoEncontradoException(
+            ClienteNaoEncontradoException exception) {
+
         return exception.getMessage();
     }
 }

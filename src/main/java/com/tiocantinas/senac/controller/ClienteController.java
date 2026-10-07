@@ -10,7 +10,7 @@ import com.tiocantinas.senac.dto.cliente.ClienteRequest;
 import com.tiocantinas.senac.dto.cliente.ClienteResponse;
 import com.tiocantinas.senac.service.ClienteService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 

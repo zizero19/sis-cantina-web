@@ -32,9 +32,7 @@ public class ProdutoService {
 
     @Transactional(readOnly = true)
     public ProdutoResponse buscarPorId(Long id) {
-        Produto produto = produtoRepository.findById(id)
-                .orElseThrow(() -> new ProdutoNaoEncontradoException(id));
-        return toResponse(produto);
+        return toResponse(buscarEntidadePorId(id));
     }
 
     @Transactional(readOnly = true)

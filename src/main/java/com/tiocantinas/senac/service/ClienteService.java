@@ -32,9 +32,7 @@ public class ClienteService {
 
     @Transactional(readOnly = true)
     public ClienteResponse buscarPorId(Long id) {
-        Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new ClienteNaoEncontradoException(id));
-        return toResponse(cliente);
+        return toResponse(buscarEntidadePorId(id));
     }
 
     @Transactional(readOnly = true)
@@ -71,8 +69,7 @@ public class ClienteService {
         cliente.setNome(request.nome());
         cliente.setCpf(request.cpf());
         cliente.setTelefone(request.telefone());
-        cliente.setSetor(request.setor());
-        cliente.setAtivo(request.ativo());
+        cliente.getSetor().setId(request.setorId());
         cliente.setLimiteCredito(request.limiteCredito());
     }
 
